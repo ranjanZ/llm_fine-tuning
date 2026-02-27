@@ -57,7 +57,7 @@ for episode in range(200):
     optimizer.step()
     
     # Visualize every 20 episodes
-    if (episode + 1) % 20 == 0:
+    if (episode + 1) % 10 == 0:
         print(f"\n🎬 Episode {episode+1} | Reward: {sum(rewards)}")
         # Show trained policy in action
         vis_env = gym.make('CartPole-v1', render_mode='human')

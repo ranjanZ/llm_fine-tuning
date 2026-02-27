@@ -310,7 +310,7 @@ def main():
     print("=" * 60)
     
     # Default parameters
-    model_path = "pretrained_model.pth"
+    model_path = "model/best_model.pth"
     method = "lora"
     rank = 4
     alpha = 1.0
@@ -318,7 +318,7 @@ def main():
     num_samples = 500
     batch_size = 16
     epochs = 5
-    output_path = "peft_model.pth"
+    output_path = "model/peft_model.pth"
     
     print(f"\nUsing parameters:")
     print(f"  Model path: {model_path}")
@@ -331,6 +331,7 @@ def main():
     print(f"  Epochs: {epochs}")
     print(f"  Output: {output_path}")
     
+    """
     change = input("\nPress Enter to continue, or 'c' to change: ").strip().lower()
     if change == 'c':
         model_path = input(f"Model path [{model_path}]: ").strip() or model_path
@@ -342,7 +343,12 @@ def main():
         batch_size = int(input(f"Batch size [{batch_size}]: ").strip() or batch_size)
         epochs = int(input(f"Epochs [{epochs}]: ").strip() or epochs)
         output_path = input(f"Output path [{output_path}]: ").strip() or output_path
-    
+   
+    """
+
+
+
+
     # Load base model
     print(f"\n1. Loading base model...")
     checkpoint = torch.load(model_path, map_location='cpu', weights_only=False)
@@ -414,20 +420,12 @@ def main():
             expected = str(a + b)
             
             is_correct = generated_text == expected
-            if is_correct:
-                correct += 1
-                symbol = "✓"
-            else:
-                symbol = "✗"
             
             total += 1
-            print(f"  {problem} → {generated_text} (expected: {expected}) {symbol}")
+            print(f"  {problem} → {generated_text} (expected: {expected})")
         else:
             print(f"  {problem} → {generated_text}")
     
-    if total > 0:
-        accuracy = correct / total * 100
-        print(f"\n  Accuracy: {correct}/{total} ({accuracy:.1f}%)")
     
     print(f"\nPEFT training complete!")
     return trainer

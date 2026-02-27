@@ -353,7 +353,7 @@ def main():
     print("=" * 60)
     
     # Default parameters
-    model_path = "pretrained_model.pth"
+    model_path = "model/best_model.pth"
     beta = 0.1
     max_digits = 2
     num_pairs = 500

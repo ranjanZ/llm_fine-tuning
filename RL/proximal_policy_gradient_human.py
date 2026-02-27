@@ -6,7 +6,7 @@ import numpy as np
 import time
 from torch.distributions import Normal
 from collections import deque
-
+import os
 class ActorNetwork(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=256):
         super().__init__()
@@ -121,6 +121,20 @@ def get_action(policy, state, deterministic=False):
             return dist.mean[0].cpu().numpy()
         return dist.sample()[0].cpu().numpy()
 
+def load_best_model(actor, critic, model_path='best_humanoid_ppo.pth'):
+    """Load the best model if it exists"""
+    if os.path.exists(model_path):
+        print(f"\n📂 Found existing model at {model_path}")
+        checkpoint = torch.load(model_path)
+        actor.load_state_dict(checkpoint['actor'])
+        critic.load_state_dict(checkpoint['critic'])
+        print("✅ Model loaded successfully!")
+        return True
+    else:
+        print("\n📂 No existing model found. Starting fresh training.")
+        return False
+
+
 def train_humanoid_ppo():
     # Initialize environment
     env = gym.make('Humanoid-v4')
@@ -139,13 +153,13 @@ def train_humanoid_ppo():
     # Initialize networks
     actor = ActorNetwork(state_dim, action_dim, hidden_dim=512)
     critic = CriticNetwork(state_dim, hidden_dim=512)
-    
+    load_best_model(actor, critic)
     # Optimizers
     actor_optimizer = optim.Adam(actor.parameters(), lr=3e-5)
     critic_optimizer = optim.Adam(critic.parameters(), lr=1e-4)
     
     # PPO hyperparameters
-    num_episodes = 3000
+    num_episodes = 30
     gamma = 0.99
     gae_lambda = 0.95
     clip_epsilon = 0.2

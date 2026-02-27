@@ -55,7 +55,7 @@ class GPTTrainer:
             # Forward pass
             self.optimizer.zero_grad()
             logits, loss = self.model(inputs, targets)
-            print(DBG)
+            #print(DBG)
 
             # Backward pass
             loss.backward()
@@ -133,7 +133,8 @@ class GPTTrainer:
         """Full training loop."""
         print(f"\nTraining for {epochs} epochs...")
         print("=" * 60)
-        
+        self.load_checkpoint(path="model/best_model.pth")
+
         best_val_loss = float('inf')
         
         for epoch in range(epochs):
@@ -191,24 +192,20 @@ class GPTTrainer:
                     temperature=0.8,
                     eos_token_id=self.dataset.eos_token_id
                 )
-            
+           
+
+            #print(debug)
+
             # Decode
             generated_tokens = generated[0].tolist()
             generated_text = self.dataset.decode(generated_tokens)
             
             print(f"    Example {i+1}:")
             print(f"      Problem:    {problem}")
-            print(f"      Expected:   {expected}")
+            print(f"      Expected:   {problem}{expected}")
             print(f"      Generated:  {generated_text}")
             
-            # Check if correct
-            if generated_text == expected:
-                print(f"      ✓ CORRECT")
-                correct_count += 1
-            else:
-                print(f"      ✗ WRONG")
         
-        print(f"\n    Accuracy: {correct_count}/{num_examples}")
     
     def save_checkpoint(self, path: str):
         """Save model checkpoint."""

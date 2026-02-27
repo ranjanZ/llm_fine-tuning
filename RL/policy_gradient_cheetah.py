@@ -171,5 +171,3 @@ if __name__ == "__main__":
     # Train on HalfCheetah
     train_cheetah()
     
-    # Uncomment to train on Ant
-    # train_ant()

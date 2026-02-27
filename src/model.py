@@ -100,7 +100,7 @@ class AdditionDecoder(nn.Module):
         # Language model head
         logits = self.lm_head(x)
         
-        print(DBG)
+        #print(DBG)
         # Calculate loss if targets provided
         loss = None
         if targets is not None:

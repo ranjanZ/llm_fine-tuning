@@ -64,10 +64,6 @@ def interactive_demo(model: AdditionDecoder, dataset: AdditionDataset):
                     print(f"Model says: {generated_text}")
                     print(f"Correct answer: {expected}")
                     
-                    if generated_text == expected:
-                        print("✓ CORRECT!")
-                    else:
-                        print("✗ Try again")
                 except:
                     print(f"\nModel output: {generated_text}")
             else:
@@ -89,12 +85,9 @@ def batch_test(model: AdditionDecoder, dataset: AdditionDataset, num_tests: int 
     
     for i in range(num_tests):
         # Generate random problem
-        a = random.randint(1, 10**dataset.max_digits - 1)
-        b = random.randint(1, 10**dataset.max_digits - 1)
-        
-        problem = f"{a}+{b}="
-        expected = str(a + b)
-        
+        problem, expected, full_problem = dataset.generate_random_problem()
+
+
         try:
             # Encode prompt
             prompt_tokens = dataset.encode(problem, add_eos=False)
@@ -196,7 +189,7 @@ def main():
         # Load trained model
         checkpoint_path = input("Enter checkpoint path (or press Enter for 'best_model.pth'): ").strip()
         if not checkpoint_path:
-            checkpoint_path = "best_model.pth"
+            checkpoint_path = "model/best_model.pth"
         
         try:
             model = load_model_from_checkpoint(checkpoint_path, dataset)
