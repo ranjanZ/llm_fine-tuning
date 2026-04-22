@@ -1,0 +1,32 @@
+preprocessing
+--  stop words
+--  punctuation
+They are not chunking
+
+
+
+hit rate -> from 87.1 to 97.1  before and after
+with 5 fold  cross validation we are getting  the number 97.1%
+
+
+Two suggestion:
+1. decided to take our module as it is and add xgboost
+2. For deployment we need to talk to their engineering team
+3. Need to colaborate and implement  Xg Boost at CURE  and evaluate
+4. Current search vendor have the content, we have retrival API and get the chunks. the content is public data
+5. wWe need to have disscussion with ML enginniung team to design  for delta  calculation
+6. Svinay system takes around 1 to 2 sec for infererence.
+7. For XGboost we don't need to retrain.
+Steps 1:
+1. Implement in  XG boost in Cure
+2. Evaluate using 91 dim feature.
+3. Talk to engineering team  for
+
+
+1. We have all the modules in CURE
+
+
+
+
+
+2.we have multiple preprocessig steps
